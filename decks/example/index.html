@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lectern — Component Showcase</title>
+    <script type="module" src="./deck.js"></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ── 1. Title ─────────────────────────────────────── -->
+        <title-slide
+          title="Lectern"
+          subtitle="A Reveal.js slide framework built with Vite, Tailwind v4, and web components"
+          author=""
+          date="2026"
+        ></title-slide>
+
+        <!-- ── 2. What is Lectern ────────────────────────────── -->
+        <bullet-slide title="What is Lectern?">
+          <li>Slides are authored as <strong>custom HTML elements</strong> — no markdown, no config files</li>
+          <li>Components replace themselves with semantic HTML <strong>before Reveal initializes</strong> — no JS framework, no virtual DOM</li>
+          <li>Powered by <strong>Reveal.js</strong> for navigation, <strong>Vite</strong> for builds, and <strong>Tailwind v4</strong> for utilities</li>
+          <li>Add a deck by dropping a folder in <code>decks/</code> — Vite discovers it automatically</li>
+        </bullet-slide>
+
+        <!-- ── 3. Eyebrow + slide-content ───────────────────── -->
+        <section>
+          <slide-eyebrow>Layout</slide-eyebrow>
+          <h2>Eyebrow labels and constrained content areas</h2>
+          <div class="slide-content slide-content--stack">
+            <p class="text-slate-300 text-lg"><code class="text-sky-300">&lt;slide-eyebrow&gt;</code> renders the small label above the heading. It's a good way to orient the audience within a longer deck.</p>
+            <p class="text-slate-300 text-lg"><code class="text-sky-300">.slide-content</code> is a CSS class that constrains the content to a readable 48 rem max-width. Add <code class="text-sky-300">--wide</code> for 64 rem, or <code class="text-sky-300">--stack</code> to turn it into a flex column with a gap.</p>
+            <info-box title="These are the building blocks used on every slide in a real deck">
+              <p class="text-slate-300">Pair an eyebrow with an h2 and a slide-content wrapper and you have a consistent, scannable slide structure.</p>
+            </info-box>
+          </div>
+          <p class="slide-footer">shared/style.css — .slide-content, .slide-eyebrow</p>
+        </section>
+
+        <!-- ── 4. Metric grid ────────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Data cards</slide-eyebrow>
+          <h2>Metric grid — auto-fit stat display</h2>
+          <div class="slide-content slide-content--stack">
+            <p class="text-slate-300 text-lg">Use <code class="text-sky-300">&lt;metric-grid&gt;</code> with <code class="text-sky-300">&lt;metric-card&gt;</code> children to show 2 or 3 stats side by side. Columns auto-fit — no extra config needed.</p>
+            <metric-grid>
+              <metric-card value="0 config" label="Vite discovers decks automatically from the folder structure"></metric-card>
+              <metric-card value="1 file" label="A minimal deck.js is three lines — import and call initDeck()"></metric-card>
+              <metric-card value="~40 lines" label="Average component implementation — extend HTMLElement, replaceWith"></metric-card>
+            </metric-grid>
+          </div>
+        </section>
+
+        <!-- ── 5. Feature cards ──────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Data cards</slide-eyebrow>
+          <h2>Feature cards — icon, title, body</h2>
+          <div class="slide-content slide-content--stack">
+            <feature-card icon="🧩" title="Web components with no framework">
+              Each component is a plain HTMLElement subclass. No React, no Vue, no build-time compilation. Works in any browser that supports custom elements.
+            </feature-card>
+            <feature-card icon="🎨" title="Tailwind utility classes everywhere">
+              Every element inside a slide can use Tailwind classes directly. The full utility set is available — no safelisting, no JIT caveats.
+            </feature-card>
+            <feature-card icon="📦" title="One deck, one folder">
+              Drop an index.html and deck.js into decks/my-talk/ and it's live. Vite handles the build entry point automatically.
+            </feature-card>
+          </div>
+        </section>
+
+        <!-- ── 6. Code block ─────────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Code panels</slide-eyebrow>
+          <h2>code-block — single labeled panel</h2>
+          <div class="slide-content slide-content--stack">
+            <p class="text-slate-300 text-base">Five variants: <code class="text-sky-300">danger</code> · <code class="text-sky-300">safe</code> · <code class="text-sky-300">info</code> · <code class="text-sky-300">caution</code> · <code class="text-sky-300">neutral</code>. Omit <code class="text-sky-300">label</code> for an unlabeled block.</p>
+            <code-block label="deck.js — a minimal deck" variant="info">
+              <code class="language-js" data-trim>
+import { initDeck } from '../../shared/init.js'
+
+initDeck()
+              </code>
+            </code-block>
+            <code-block label="Adding a plugin" variant="neutral">
+              <code class="language-js" data-trim>
+import Notes from 'reveal.js/plugin/notes/notes.esm.js'
+
+initDeck({ plugins: [Notes] })
+              </code>
+            </code-block>
+          </div>
+        </section>
+
+        <!-- ── 7. Code comparison ────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Code panels</slide-eyebrow>
+          <h2>code-comparison — side-by-side panels</h2>
+          <div class="slide-content slide-content--wide slide-content--stack">
+            <p class="text-slate-300 text-base">Use <code class="text-sky-300">&lt;code-comparison&gt;</code> with <code class="text-sky-300">&lt;code-pane&gt;</code> children. Auto-fits to two equal columns. Accepts the same variants as code-block.</p>
+            <code-comparison>
+              <code-pane label="Before — raw div markup" variant="danger">
+                <code class="language-html" data-trim>
+&lt;div class="code-block"&gt;
+  &lt;div class="code-panel__label
+    code-panel__label--safe"&gt;
+    app/Http/Requests/LoginRequest.php
+  &lt;/div&gt;
+  &lt;pre&gt;&lt;code class="language-php"&gt;
+    // ...
+  &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+                </code>
+              </code-pane>
+              <code-pane label="After — component" variant="safe">
+                <code class="language-html" data-trim>
+&lt;code-block
+  label="app/Http/Requests/LoginRequest.php"
+  variant="safe"
+&gt;
+  &lt;code class="language-php" data-trim&gt;
+    // ...
+  &lt;/code&gt;
+&lt;/code-block&gt;
+                </code>
+              </code-pane>
+            </code-comparison>
+          </div>
+        </section>
+
+        <!-- ── 8. Callout boxes ──────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Callouts</slide-eyebrow>
+          <h2>Five callout variants</h2>
+          <div class="slide-content slide-content--wide slide-content--stack">
+            <div class="grid grid-cols-2 gap-3 text-sm">
+              <info-box title="info-box" title-style="label">Blue — background context, key concepts, things worth knowing.</info-box>
+              <warning-block title="warning-block" title-style="label">Red — risks, gotchas, things that will bite you.</warning-block>
+              <tip-box title="tip-box" title-style="label">Purple — watch-for patterns, code review hints, recommendations.</tip-box>
+              <success-box title="success-box" title-style="label">Green — safe patterns, correct approaches, framework defaults.</success-box>
+            </div>
+            <breach-box title="breach-box — real-world incidents and root causes">
+              <p>Amber — use for concrete examples of what goes wrong in the wild. Supports a link as the last child.</p>
+              <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">↗ OWASP Top 10</a>
+            </breach-box>
+          </div>
+        </section>
+
+        <!-- ── 9. Callout options ────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Callouts</slide-eyebrow>
+          <h2>Callout options — size, title-style, stat</h2>
+          <div class="slide-content slide-content--stack">
+            <warning-block variant="stat" stat="83%" title="of data breaches involve the human element (Verizon DBIR, 2024)">
+              <p class="text-slate-400 text-sm">The <code class="text-sky-300">variant="stat"</code> layout puts a big number next to the body text. Only available on warning-block.</p>
+            </warning-block>
+            <div class="grid grid-cols-2 gap-3">
+              <info-box title="title-style=&quot;heading&quot; (default)" size="sm">
+                <p class="text-slate-300">Title renders as a larger paragraph — good for descriptive titles.</p>
+              </info-box>
+              <info-box title="title-style=&quot;label&quot;" title-style="label" size="sm">
+                <p class="text-slate-300">Title renders as a small monospace label — good for short tags.</p>
+              </info-box>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── 10. Utility components ────────────────────────── -->
+        <section>
+            <topic-header code="01" label="First Topic"></topic-header>
+          <slide-eyebrow>Utilities</slide-eyebrow>
+          <h2>Checklist panel and external link block</h2>
+          <div class="slide-content slide-content--stack">
+            <external-link-block>See: README.md — full component reference</external-link-block>
+            <p class="text-slate-300 text-base"><code class="text-sky-300">&lt;checklist-panel&gt;</code> takes <code class="text-sky-300">&lt;li&gt;</code> children and renders a scannable checkbox list. Inner HTML is preserved — use spans, code, and inline styles freely.</p>
+            <checklist-panel>
+              <li>Does the component extend <code>HTMLElement</code> and call <code>this.replaceWith()</code>?</li>
+              <li>Is it registered with <code>customElements.define()</code>?</li>
+              <li>Is it imported in <code>shared/components/index.js</code>?</li>
+              <li>Does the CSS use <code>--deck-*</code> variables so it works without a theme?</li>
+            </checklist-panel>
+          </div>
+        </section>
+
+        <!-- ── 11. Topic header (vertical stack) ────────────── -->
+        <section>
+
+          <section>
+            <topic-header code="01" label="First Topic"></topic-header>
+            <h2>topic-header — pinned badge row</h2>
+            <div class="slide-content slide-content--stack">
+              <p class="text-slate-300 text-lg">Use <code class="text-sky-300">&lt;topic-header&gt;</code> to pin a numbered badge to the top-left corner of every slide in a series. Navigate down to see it hold its position as content changes.</p>
+              <info-box title="Always at the same coordinate">
+                <p class="text-slate-300">The section fills the full slide height so Reveal anchors it at <code>top: 0</code>. The badge is <code>position: absolute</code> at a fixed offset — it never shifts regardless of how tall the content is.</p>
+              </info-box>
+            </div>
+          </section>
+
+          <section>
+            <topic-header code="02" label="Second Topic"></topic-header>
+            <h2>The badge stays put as you navigate</h2>
+            <div class="slide-content slide-content--stack">
+              <p class="text-slate-300 text-lg">Add <code class="text-sky-300">muted</code> to dim the badge — useful for slides that reference a previously covered topic.</p>
+              <code-block label="Usage" variant="info">
+                <code class="language-html" data-trim>
+&lt;topic-header code="01" label="First Topic"&gt;&lt;/topic-header&gt;
+&lt;topic-header code="02" label="Previously Covered" muted&gt;&lt;/topic-header&gt;
+                </code>
+              </code-block>
+            </div>
+          </section>
+
+        </section>
+
+        <!-- ── 12. Adding a component ─────────────────────────── -->
+        <section>
+          <slide-eyebrow>Extending Lectern</slide-eyebrow>
+          <h2>Adding a component in three steps</h2>
+          <div class="slide-content slide-content--wide slide-content--stack">
+            <code-block label="1. shared/components/my-slide.js" variant="info">
+              <code class="language-js" data-trim>
+export class MySlide extends HTMLElement {
+  connectedCallback() {
+    const title = this.getAttribute('title') ?? ''
+    const section = document.createElement('section')
+    section.innerHTML = `&lt;h2&gt;${title}&lt;/h2&gt;`
+    this.replaceWith(section)
+  }
+}
+
+customElements.define('my-slide', MySlide)
+              </code>
+            </code-block>
+            <div class="grid grid-cols-2 gap-3">
+              <code-block label="2. shared/components/index.js" variant="info">
+                <code class="language-js" data-trim>
+import './my-slide.js'
+                </code>
+              </code-block>
+              <code-block label="3. Use it in any deck" variant="safe">
+                <code class="language-html" data-trim>
+&lt;my-slide title="Hello"&gt;&lt;/my-slide&gt;
+                </code>
+              </code-block>
+            </div>
+            <tip-box title="Works because scripts are deferred" title-style="label">
+              <p class="text-slate-300"><code class="text-sky-300">type="module"</code> scripts run after the document is fully parsed. Custom elements upgrade immediately, so <code class="text-sky-300">querySelectorAll</code> in <code class="text-sky-300">connectedCallback</code> always sees the full DOM.</p>
+            </tip-box>
+          </div>
+        </section>
+
+        <!-- ── 13. Themes ─────────────────────────────────────── -->
+        <section>
+          <slide-eyebrow>Theming</slide-eyebrow>
+          <h2>CSS variable theming</h2>
+          <div class="slide-content slide-content--stack">
+            <p class="text-slate-300 text-lg">All component colours are driven by <code class="text-sky-300">--deck-*</code> CSS variables defined in <code class="text-sky-300">shared/style.css</code>. Override any token in a scoped theme file to change the entire look.</p>
+            <code-comparison>
+              <code-pane label="shared/style.css — tokens" variant="neutral">
+                <code class="language-css" data-trim>
+:root {
+  --deck-bg:      #080b12;
+  --deck-surface: #111827;
+  --deck-accent:  #f87171;
+  --deck-code:    #7dd3fc;
+}
+                </code>
+              </code-pane>
+              <code-pane label="shared/themes/my-theme.css — override" variant="info">
+                <code class="language-css" data-trim>
+.reveal.deck-my-theme {
+  --deck-bg:      #0f1729;
+  --deck-surface: #1e2d4a;
+  --deck-accent:  #60a5fa;
+  --deck-code:    #a78bfa;
+}
+                </code>
+              </code-pane>
+            </code-comparison>
+            <success-box title="New theme = one CSS file" title-style="label">
+              <p class="text-slate-300">Create <code class="text-sky-300">shared/themes/my-theme.css</code>, override the variables, import it in <code class="text-sky-300">deck.js</code>, and add the class to the reveal root div.</p>
+            </success-box>
+          </div>
+        </section>
+
+        <!-- ── 14. PDF export ────────────────────────────────── -->
+        <bullet-slide title="PDF export &amp; build">
+          <li>PDF export uses <strong>decktape</strong> — run <code>npm run pdf --deck=example</code> with the dev server running</li>
+          <li>decktape is fetched automatically via <code>npx</code> — no separate install needed</li>
+          <li>Production build: <code>npm run build</code> — output goes to <code>dist/</code></li>
+          <li>Vite discovers all <code>decks/*/index.html</code> files automatically — no config changes for new decks</li>
+        </bullet-slide>
+
+      </div>
+    </div>
+  </body>
+</html>
