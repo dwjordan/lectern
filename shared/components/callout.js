@@ -34,6 +34,10 @@ export function renderCallout(element, variant) {
     .filter(Boolean)
     .join(' ')
 
+  for (const attr of element.attributes) {
+    if (attr.name.startsWith('data-')) box.setAttribute(attr.name, attr.value)
+  }
+
   if (layout === 'stat' && variant === 'warning') {
     box.innerHTML = `
       <span class="callout__stat">${stat}</span>

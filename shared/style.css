@@ -92,7 +92,7 @@
 .reveal pre code {
   max-height: 420px;
   padding: 1rem 1.1rem;
-  font-size: 0.4em;
+  font-size: 0.92em;
   line-height: 1.7;
 }
 
@@ -158,6 +158,12 @@
   font-size: 0.28em;
 }
 
+.code-block.code-block--tight pre code {
+  line-height: 1.25;
+  letter-spacing: 0;
+  font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+}
+
 .code-panel__label {
   padding: 0.3rem 0.75rem;
   font-family: var(--deck-mono-font);
@@ -194,6 +200,104 @@
   color: #fcd34d;
   background: rgba(245, 158, 11, 0.12);
   border-bottom-color: rgba(251, 191, 36, 0.2);
+}
+
+/* ─── Mermaid diagrams ───────────────────────────────────── */
+
+.mermaid-diagram {
+  text-align: left;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--deck-border);
+  background: var(--deck-surface);
+}
+
+.mermaid-diagram .mermaid {
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.mermaid-diagram--compact .mermaid {
+  padding: 0.75rem;
+}
+
+.mermaid-diagram .mermaid svg {
+  /* Mermaid bakes its own max-width inline, sized to the diagram's
+     unscaled natural geometry — that's almost always smaller than the
+     card it sits in, which is why diagrams render "tiny". Override it
+     so the SVG fills the card; the viewBox scales the content to match. */
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto;
+}
+
+/* Step-through highlighting, synced to Reveal fragments — see
+   syncMermaidStepFragment() in shared/init.js */
+.mermaid-diagram[data-steps] svg .messageLine0,
+.mermaid-diagram[data-steps] svg .messageLine1,
+.mermaid-diagram[data-steps] svg .messageText {
+  transition: opacity 0.25s ease;
+}
+
+.mermaid-diagram[data-steps] svg .step-dimmed {
+  opacity: 0.25;
+}
+
+.mermaid-diagram[data-steps] svg .step-active.messageLine0,
+.mermaid-diagram[data-steps] svg .step-active.messageLine1 {
+  stroke: var(--deck-accent) !important;
+}
+
+.mermaid-diagram[data-steps] svg .step-active.messageText {
+  fill: var(--deck-accent) !important;
+}
+
+.step-caption {
+  min-height: 4.5rem;
+}
+
+.step-caption .fragment {
+  text-align: left;
+}
+
+/* ─── Data tables ────────────────────────────────────────── */
+
+.deck-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  border: 1px solid var(--deck-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.deck-table th,
+.deck-table td {
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--deck-border);
+}
+
+.deck-table th {
+  font-family: var(--deck-mono-font);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--deck-text-muted);
+  background: var(--deck-surface-raised);
+}
+
+.deck-table td {
+  color: var(--deck-text);
+}
+
+.deck-table td code {
+  font-size: 0.85em;
+}
+
+.deck-table tr:last-child td {
+  border-bottom: none;
 }
 
 /* code-comparison: auto-fit side-by-side code panels */
